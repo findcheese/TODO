@@ -36,3 +36,142 @@
     transform: rotate(360deg);
   }
 }
+/* General Container Styles */
+.container {
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: #f8f4c4;
+  border: 2px solid #f0e68c;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.title {
+  color: #5f4b32;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Input Section */
+.input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 16px;
+  width: 70%;
+  margin-right: 10px;
+  border: 1px solid #d2b48c;
+  border-radius: 5px;
+  background-color: #fffacd;
+  outline: none;
+}
+
+.add-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #ffd700;
+  color: #5f4b32;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* List and Items */
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.todo-item {
+  background-color: #fffacd;
+  color: #5f4b32;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px dashed #d2b48c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.todo-text {
+  cursor: pointer;
+  font-size: 16px;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.todo-text.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+/* Buttons */
+.delete-button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.edit-button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.edit-input {
+  padding: 5px;
+  font-size: 16px;
+  width: 70%;
+  margin-right: 10px;
+  border: 1px solid #d2b48c;
+  border-radius: 5px;
+  background-color: #fffacd;
+  outline: none;
+}
+
+.save-button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #87fb87;
+  color: rgb(23, 20, 20);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.cancel-button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #fb855a;
+  color: rgb(23, 20, 20);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+

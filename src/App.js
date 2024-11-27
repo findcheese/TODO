@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import "./App.css";
 
 function TodoApp() {
   const [todos, setTodos] = useState(() => {
@@ -7,6 +8,8 @@ function TodoApp() {
     return savedTodos ? JSON.parse(savedTodos) : [];
   });
   const [inputValue, setInputValue] = useState(""); // 입력 필드 상태
+  const [editId, setEditId] = useState(null); // 수정 중인 투두 ID
+  const [editValue, setEditValue] = useState(""); // 수정 중인 값
 
   // todos 상태가 변경될 때 localStorage에 저장
   useEffect(() => {
@@ -33,125 +36,94 @@ function TodoApp() {
       )
     );
   };
+  // 수정
+  const startEditing = (id, text) => {
+    setEditId(id);
+    setEditValue(text);
+  };
+
+  const saveEdit = () => {
+      if (editValue.trim() === "") return; // 빈 값 방지
+    setTodos(
+      todos.map((todo) =>
+        todo.id === editId ? { ...todo, text: editValue } : todo
+      ));
+    clearEditing();
+  };
+
+  const clearEditing = () => {
+    setEditId(null);
+    setEditValue("");
+  };
+
+  const cancelEdit = () => {
+    setEditId(null);
+    setEditValue("");
+  };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>📝 Have To Do</h1>
-      <div style={styles.inputContainer}>
+    <div className="container">
+      <h1 className="title">📝 Have To Do</h1>
+      <div className="input-container">
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="기록하자"
-          style={styles.input}
-        />
-        <button onClick={addTodo} style={styles.addButton}>
-          Add
-        </button>
-      </div>
-      <ul style={styles.list}>
-        {todos.map((todo) => (
-          <li key={todo.id} style={styles.todoItem}>
+          className="input"
+      />
+      <button onClick={addTodo} className="add-button">
+        Add
+      </button>
+    </div>
+    <ul className="list">
+      {todos.map((todo) => (
+        <li key={todo.id} className="todo-item">
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => toggleTodo(todo.id)}
+            className="checkbox"
+          />
+          {editId === todo.id ? (
             <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleTodo(todo.id)}
-              style={styles.checkbox}
+              type="text"
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              className="edit-input"
             />
+          ) : (
             <span
-              style={{
-                ...styles.todoText,
-                textDecoration: todo.completed ? "line-through" : "none",
-                color: todo.completed ? "gray" : "#5f4b32",
-              }}
+              className={`todo-text ${todo.completed ? "completed" : ""}`}
+              onClick={() => toggleTodo(todo.id)}
             >
               {todo.text}
             </span>
-            <button onClick={() => deleteTodo(todo.id)} style={styles.deleteButton}>
-              🗑️
+          )}
+          {editId === todo.id ? (
+            <>
+              <button onClick={saveEdit} className="save-button">
+                Save
+              </button>
+              <button onClick={cancelEdit} className="cancel-button">
+                Cancel
+              </button>
+            </>
+          ) : (
+            <button onClick={() => startEditing(todo.id, todo.text)} className="edit-button">
+              ✏️
             </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+         )}
+         <button onClick={() => deleteTodo(todo.id)} className="delete-button">
+           🗑️
+         </button>
+       </li>
+     ))}
+    </ul>
+  </div>
+
   );
 }
-
-const styles = {
-  container: {
-    width: "400px",
-    margin: "0 auto",
-    textAlign: "center",
-    fontFamily: "'Comic Sans MS', cursive, sans-serif",
-    backgroundColor: "#f8f4c4", // 메모지 배경색
-    border: "2px solid #f0e68c", // 테두리 색상
-    borderRadius: "15px",
-    boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.2)",
-    padding: "20px",
-  },
-  title: {
-    color: "#5f4b32",
-    fontSize: "24px",
-    marginBottom: "20px",
-  },
-  inputContainer: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: "20px",
-  },
-  input: {
-    padding: "10px",
-    fontSize: "16px",
-    width: "70%",
-    marginRight: "10px",
-    border: "1px solid #d2b48c",
-    borderRadius: "5px",
-    backgroundColor: "#fffacd", // 연한 노란색
-    outline: "none",
-  },
-  addButton: {
-    padding: "10px 15px",
-    fontSize: "16px",
-    backgroundColor: "#ffd700", // 메모지 노란색
-    color: "#5f4b32",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
-  },
-  list: {
-    listStyleType: "none",
-    padding: 0,
-  },
-  todoItem: {
-    backgroundColor: "#fffacd", // 연한 노란색
-    color: "#5f4b32",
-    padding: "10px",
-    marginBottom: "10px",
-    borderRadius: "5px",
-    border: "1px dashed #d2b48c",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
-  },
-  todoText: {
-    cursor: "pointer",
-    fontSize: "16px",
-    flexGrow: 1,
-    textAlign: "left",
-  },
-  deleteButton: {
-    padding: "5px 10px",
-    fontSize: "14px",
-    backgroundColor: "#ff6347",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginLeft: "10px",
-  },
-};
 
 
 export default TodoApp;
